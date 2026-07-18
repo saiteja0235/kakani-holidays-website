@@ -72,3 +72,18 @@ form[aria-label="Find a holiday"] .search-field:hover{border-color:rgba(231,183,
 @keyframes simpleLogoReveal{from{opacity:0;transform:translateY(10px) scale(.9)}45%,to{opacity:1;transform:none}}
 @keyframes simpleLightSweep{0%,25%{opacity:0;transform:scaleX(0)}65%{opacity:.7;transform:scaleX(1)}to{opacity:0;transform:scaleX(1.12)}}
 @keyframes simpleIntroExit{0%,88%{opacity:1;visibility:visible;pointer-events:auto}to{opacity:0;visibility:hidden;pointer-events:none}}
+/* Premium mobile card motion using the browser compositor, without scroll listeners. */
+@media(max-width:767px){
+  .mobile-premium-card,.destination-card{animation:mobilePremiumReveal .65s cubic-bezier(.22,1,.36,1) both;animation-timeline:view();animation-range:entry 5% cover 28%;transform-origin:center bottom}
+  .mobile-premium-card:active,.destination-card:active{transform:scale(.985)}
+}
+@keyframes mobilePremiumReveal{from{opacity:.35;transform:translateY(24px) scale(.975);filter:saturate(.75)}to{opacity:1;transform:none;filter:saturate(1)}}
+.travel-image img[src*="/catalog/europe.avif"],img[src*="/catalog/europe.avif"]{object-position:center 48%}
+.travel-image img[src*="/catalog/singapore.avif"],img[src*="/catalog/singapore.avif"]{object-position:center 55%}
+.travel-image img[src*="/catalog/malaysia.avif"],img[src*="/catalog/malaysia.avif"]{object-position:center 48%}
+.travel-image img[src*="/catalog/dubai.avif"],img[src*="/catalog/dubai.avif"]{object-position:center 52%}
+.travel-image img[src*="/catalog/vietnam.avif"],img[src*="/catalog/vietnam.avif"]{object-position:center 48%}
+.travel-image img[src*="/catalog/thailand.avif"],img[src*="/catalog/thailand.avif"]{object-position:center 45%}
+.travel-image img[src*="/catalog/australia.avif"],img[src*="/catalog/australia.avif"]{object-position:center 54%}
+.travel-image img[src*="/catalog/maldives.avif"],img[src*="/catalog/maldives.avif"]{object-position:center 58%}
+.travel-image img[src*="/catalog/nepal.avif"],img[src*="/catalog/nepal.avif"]{object-position:center 46%}
