@@ -11,8 +11,8 @@ import TranslateToolbarGuard from './TranslateToolbarGuard';
 
 const links=[['Home','/'],['About','/about'],['Gallery','/gallery'],['Blogs','/blogs'],['Contact','/contact']];
 
-function Brand(){return <Link to="/" aria-label="Kakani Holidays home" className="flex min-w-fit items-center rounded-lg bg-white px-1.5 py-1">
-<img src="/images/brand/kakani-logo-transparent.png" alt="Kakani Holidays Pvt. Ltd. — Host of Happiness" className="h-[48px] w-[165px] object-contain sm:h-[54px] sm:w-[205px]" width="205" height="54"/>
+function Brand(){return <Link to="/" aria-label="Kakani Holidays home" className="flex min-w-fit items-center">
+<img src="/images/brand/kakani-logo-transparent.png" alt="Kakani Holidays Pvt. Ltd. — Host of Happiness" className="h-[54px] w-[180px] object-contain drop-shadow-[0_2px_5px_rgba(255,255,255,.35)] sm:h-[62px] sm:w-[220px]" width="220" height="62"/>
 </Link>}
 
 const languages=[['en','English'],['hi','हिन्दी'],['te','తెలుగు'],['ta','தமிழ்'],['kn','ಕನ್ನಡ'],['ml','മലയാളം'],['mr','मराठी'],['bn','বাংলা'],['gu','ગુજરાતી'],['pa','ਪੰਜਾਬੀ'],['ur','اردو'],['ar','العربية'],['fr','Français'],['de','Deutsch'],['es','Español'],['ja','日本語'],['ko','한국어'],['zh-CN','中文']];
