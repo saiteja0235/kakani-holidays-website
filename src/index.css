@@ -87,3 +87,8 @@ form[aria-label="Find a holiday"] .search-field:hover{border-color:rgba(231,183,
 .travel-image img[src*="/catalog/australia.avif"],img[src*="/catalog/australia.avif"]{object-position:center 54%}
 .travel-image img[src*="/catalog/maldives.avif"],img[src*="/catalog/maldives.avif"]{object-position:center 58%}
 .travel-image img[src*="/catalog/nepal.avif"],img[src*="/catalog/nepal.avif"]{object-position:center 46%}
+.travel-motion-image{animation:travelImageReveal .8s cubic-bezier(.22,1,.36,1) both;will-change:transform,opacity;transition:transform .7s cubic-bezier(.22,1,.36,1)}
+.group:hover .travel-motion-image{transform:scale(1.045)}
+@keyframes travelImageReveal{from{opacity:0;transform:scale(1.035)}to{opacity:1;transform:scale(1)}}
+@media(max-width:767px){.travel-motion-image{animation-duration:.55s}.group:active .travel-motion-image{transform:scale(1.025)}}
+@media(prefers-reduced-motion:reduce){.travel-motion-image{animation:none!important;transition:none!important}.group:hover .travel-motion-image{transform:none}}

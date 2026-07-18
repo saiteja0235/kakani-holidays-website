@@ -1,15 +1,490 @@
-import {useEffect,useMemo,useState} from 'react';import {Link,useParams} from 'react-router-dom';import {Helmet} from 'react-helmet-async';import {motion} from 'framer-motion';import {ArrowLeft,ArrowRight,Check,ChevronDown,Clock,MapPin,MessageCircle,Phone,X} from 'lucide-react';import {categoryLabels,destinationCatalog,findDestination} from '../data/destinationCatalog';import {contact} from '../data/content';
-import {ResponsiveTravelImage} from '../components/Common';
-export default function DestinationPage(){const {category,destinationSlug}=useParams();const d=findDestination(category,destinationSlug);const [faq,setFaq]=useState(0);const [lightbox,setLightbox]=useState<number|null>(null);useEffect(()=>{window.scrollTo(0,0)},[destinationSlug]);const order=useMemo(()=>destinationCatalog.filter(x=>x.category===category),[category]);if(!d)return <div className="grid min-h-screen place-items-center bg-[#061b33] px-4 text-center text-white"><div><p className="lux-eyebrow !text-[#d9a441]">Destination unavailable</p><h1 className="mt-5 font-serif text-6xl">This journey is not on the map.</h1><Link to="/packages" className="lux-btn-gold mt-8">Explore all packages</Link></div></div>;const pos=order.findIndex(x=>x.slug===d.slug),prev=order[(pos-1+order.length)%order.length],next=order[(pos+1)%order.length];const wa=`https://wa.me/${contact.phoneRaw}?text=${encodeURIComponent(`Hello Kakani Holidays! I am interested in a holiday package for ${d.name}. Please share the itinerary, price, availability and next steps.`)}`;return <div className="bg-[#f9f7f2]"><Helmet><title>{d.name} Tour Packages from India | Kakani Holidays</title><meta name="description" content={`Explore customized ${d.name} holiday packages with Kakani Holidays, sightseeing, accommodation and personalized travel support.`}/><link rel="canonical" href={`https://www.kakaniholidays.com/packages/${d.category}/${d.slug}`}/></Helmet>
-<section className="destination-cinematic-hero relative bg-[#061b33] text-white"><motion.div initial={{opacity:0,scale:1.06}} animate={{opacity:1,scale:1}} transition={{duration:1.1,ease:[.22,1,.36,1]}} className="destination-cinematic-media relative aspect-video w-full overflow-hidden"><ResponsiveTravelImage src={d.heroImage} alt={`${d.name} holiday destination`} loading="eager" className="h-full w-full object-cover animate-[slowZoom_14s_ease-in-out_infinite] motion-reduce:animate-none"/><div className="absolute inset-0 bg-gradient-to-r from-[#061b33]/90 via-[#061b33]/38 to-transparent"/><div className="absolute inset-0 bg-gradient-to-t from-[#061b33]/70 via-transparent to-[#061b33]/15"/><motion.span initial={{width:0}} animate={{width:'38%'}} transition={{delay:.55,duration:1.1,ease:[.22,1,.36,1]}} className="absolute bottom-0 left-0 h-1 bg-gradient-to-r from-[#e7b753] to-[#ef7046] motion-reduce:hidden"/></motion.div><motion.div initial={{opacity:0,y:28}} animate={{opacity:1,y:0}} transition={{delay:.28,duration:.8,ease:[.22,1,.36,1]}} className="lux-container relative py-8 md:absolute md:inset-x-0 md:top-1/2 md:-translate-y-1/2 md:py-0"><p className="lux-eyebrow !text-[#e7b753]">Home / {categoryLabels[d.category]} / {d.name}</p><h1 className="mt-4 font-serif text-5xl leading-none sm:text-6xl md:mt-5 md:text-[clamp(5rem,8vw,9rem)]">{d.name}</h1><p className="mt-5 max-w-2xl text-base leading-7 text-white/70 md:mt-6 md:text-xl md:leading-8">{d.tagline}</p><div className="mt-7 flex flex-wrap gap-3 md:mt-9"><a href="#packages" className="lux-btn-gold">View packages</a><Link to="/customised-tours" className="lux-btn-outline">Plan my trip</Link></div></motion.div><motion.div initial={{opacity:0}} animate={{opacity:1}} transition={{delay:1}} className="pointer-events-none absolute bottom-7 right-7 hidden items-center gap-3 text-[9px] font-black uppercase tracking-[.22em] text-white/55 md:flex"><span className="h-px w-10 bg-white/40"/> Explore {d.name}</motion.div></section>
-<section className="lux-section"><div className="lux-container grid gap-14 lg:grid-cols-[1.35fr_.65fr]"><article><p className="lux-eyebrow">Discover {d.name}</p><h2 className="mt-4 font-serif text-5xl md:text-7xl">About This {d.name} Holiday</h2>{d.overview.map(p=><p key={p} className="mt-6 leading-8 text-slate-600">{p}</p>)}<div className="mt-10 grid grid-cols-2 gap-3">{d.highlights.map(x=><span key={x} className="flex items-center gap-2 rounded-xl bg-white p-4 text-sm"><MapPin size={17} className="text-[#d9a441]"/>{x}</span>)}</div></article><aside className="h-fit rounded-3xl bg-[#061b33] p-7 text-white shadow-xl lg:sticky lg:top-28"><p className="lux-eyebrow !text-[#d9a441]">Personalised for you</p><h3 className="mt-4 font-serif text-3xl">Plan Your Dream Trip</h3><p className="mt-4 text-sm leading-7 text-white/55">Get a travel plan created around your budget, dates and interests.</p>{['Customized itinerary','Transparent guidance','Accommodation assistance','Sightseeing planning'].map(x=><span className="mt-4 flex gap-2 text-sm" key={x}><Check size={16} className="text-[#d9a441]"/>{x}</span>)}<a href={wa} target="_blank" rel="noreferrer" className="lux-btn-gold mt-7 w-full"><MessageCircle size={16}/> Chat & get quote</a><a href={`tel:${contact.phoneRaw}`} className="lux-btn-outline mt-2 w-full"><Phone size={16}/> Call now</a></aside></div></section>
-<section className="lux-section bg-white"><div className="lux-container"><Head eyebrow="Explore locations" title={`Places that define ${d.name}.`}/><div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">{d.locations.map((x,i)=><article key={x.name} className="mobile-premium-card group relative min-h-[280px] overflow-hidden rounded-[28px] border border-slate-200 bg-[linear-gradient(145deg,#ffffff,#eef5f4)] p-6 shadow-[0_18px_45px_rgba(7,26,43,.08)]"><span className="text-[10px] font-black uppercase tracking-[.2em] text-[#d09d38]">0{i+1} · Highlight</span><MapPin className="mt-10 text-[#0e7b78]" size={28}/><h3 className="mt-6 font-serif text-3xl text-[#061b33]">{x.name}</h3><p className="mt-3 text-sm leading-7 text-slate-500">{x.description}</p><span className="absolute -bottom-12 -right-12 h-32 w-32 rounded-full border-[22px] border-[#0e7b78]/[.06] transition group-hover:scale-110"/></article>)}</div></div></section>
-{d.galleryImages.length>0&&<section className="overflow-hidden bg-[#061b33] py-20 text-white"><div className="lux-container"><Head eyebrow="Destination gallery" title={`${d.name}, five unforgettable views.`}/><p className="mt-4 max-w-xl text-sm leading-7 text-white/55">Swipe through a carefully selected collection of places and experiences from this journey.</p><div className="destination-five-gallery mt-10 flex snap-x snap-mandatory gap-4 overflow-x-auto pb-5 md:grid md:grid-cols-12 md:grid-rows-2 md:overflow-visible">{d.galleryImages.map((image,index)=><figure key={image} className={`group relative h-[360px] min-w-[86%] snap-center overflow-hidden rounded-[28px] bg-white/5 md:h-[280px] md:min-w-0 ${index===0?'md:col-span-7 md:row-span-2 md:h-[576px]':index===1||index===2?'md:col-span-5':'md:col-span-5'}`}><ResponsiveTravelImage src={image} alt={`${d.name} travel view ${index+1}`} className="h-full w-full object-cover transition duration-700 group-hover:scale-105"/><div className="absolute inset-0 bg-gradient-to-t from-[#061b33]/65 via-transparent to-transparent"/><figcaption className="absolute bottom-5 left-5 flex items-center gap-2 text-xs font-bold"><span className="grid h-7 w-7 place-items-center rounded-full bg-[#e7b753] text-[10px] text-[#061b33]">{index+1}</span>{d.name}</figcaption></figure>)}</div><div className="mt-2 flex justify-center gap-2 md:hidden" aria-hidden="true">{d.galleryImages.map((_,index)=><span key={index} className={`h-1.5 rounded-full ${index===0?'w-6 bg-[#e7b753]':'w-1.5 bg-white/25'}`}/>)}</div></div></section>}
-<section id="packages" className="bg-[#f4f6fa] py-20"><div className="lux-container"><div className="grid gap-8 lg:grid-cols-[.72fr_1.28fr]"><article className="h-fit overflow-hidden rounded-[28px] bg-[#123f73] text-white shadow-[0_22px_60px_rgba(18,63,115,.22)] lg:sticky lg:top-28"><div className="grid h-44 place-items-center bg-[radial-gradient(circle_at_50%_20%,rgba(231,183,83,.28),transparent_55%)]"><MapPin size={48} className="text-[#e7b753]"/></div><div className="p-6"><span className="inline-flex rounded-full bg-[#ef4c4f] px-3 py-1.5 text-[9px] font-black uppercase tracking-widest">{categoryLabels[d.category]}</span><h3 className="mt-4 font-serif text-3xl">{d.name} Essential Journey</h3><div className="mt-4 flex items-center gap-2 text-sm text-white/70"><Clock size={16}/>{d.itinerary.length-1} Nights · {d.itinerary.length} Days</div><div className="mt-5 flex flex-wrap gap-2">{d.inclusions.slice(0,3).map(x=><span className="rounded-full bg-white/10 px-3 py-2 text-[10px]" key={x}>{x}</span>)}</div><div className="mt-6 border-t border-white/15 pt-5"><p className="text-xs font-bold text-white/65">Price available on request</p><a href={wa} target="_blank" rel="noreferrer" className="mt-4 flex items-center justify-center gap-2 rounded-xl bg-[#ef4c4f] px-5 py-3 text-xs font-black uppercase tracking-wide transition hover:bg-white hover:text-[#123f73]"><MessageCircle size={15}/> Request itinerary</a></div></div></article><div><div className="overflow-hidden rounded-[28px] bg-white shadow-[0_18px_50px_rgba(7,26,43,.08)]"><div className="relative overflow-hidden bg-[#123f73] px-6 py-7 text-white md:px-8"><div className="absolute -right-10 -top-16 h-44 w-44 rounded-full border-[28px] border-white/[.06]"/><p className="text-[9px] font-black uppercase tracking-[.22em] text-[#ffb1a8]">Your travel planner</p><div className="mt-2 flex flex-col justify-between gap-4 sm:flex-row sm:items-end"><div><h2 className="font-serif text-4xl md:text-5xl">Day-wise Tour Plan</h2><p className="mt-2 text-sm text-white/60">A clear view of every chapter in your {d.name} journey.</p></div><span className="w-fit rounded-full bg-white/10 px-4 py-2 text-xs font-bold">{d.itinerary.length} Days</span></div></div><div className="grid gap-4 p-4 md:grid-cols-2 md:p-6">{d.itinerary.map((x,i)=><motion.article whileHover={{y:-5}} key={x.day} className="group relative overflow-hidden rounded-[22px] border border-slate-100 bg-[#f8f9fc] p-5 transition hover:shadow-[0_16px_35px_rgba(18,63,115,.12)]"><div className={`absolute inset-y-0 left-0 w-1.5 ${i%2?'bg-[#ef4c4f]':'bg-[#1d5d99]'}`}/><div className="flex items-start justify-between"><span className={`grid h-12 w-12 place-items-center rounded-2xl text-lg font-black text-white ${i%2?'bg-[#ef4c4f]':'bg-[#1d5d99]'}`}>{String(x.day).padStart(2,'0')}</span><span className="rounded-full bg-white px-3 py-1.5 text-[9px] font-black uppercase tracking-widest text-slate-400 shadow-sm">Day {x.day}</span></div><div className="mt-5 flex items-center gap-2 text-[10px] font-bold uppercase tracking-wider text-[#ef4c4f]"><MapPin size={13}/>{d.highlights[i%d.highlights.length]}</div><h3 className="mt-2 font-serif text-2xl leading-tight text-[#102f55]">{x.title}</h3><p className="mt-3 text-sm leading-6 text-slate-500">{x.description}</p><div className={`mt-5 h-1 w-10 rounded-full transition-all duration-500 group-hover:w-full ${i%2?'bg-[#ef4c4f]':'bg-[#1d5d99]'}`}/></motion.article>)}</div></div></div></div></div></section>
-<section className="lux-section bg-[#061b33] text-white"><div className="lux-container grid gap-12 md:grid-cols-2"><div><h3 className="font-serif text-4xl text-[#d9a441]">Inclusions</h3>{d.inclusions.map(x=><span className="mt-4 flex gap-3" key={x}><Check className="text-[#d9a441]"/>{x}</span>)}</div><div><h3 className="font-serif text-4xl text-[#d9a441]">Exclusions</h3>{d.exclusions.map(x=><span className="mt-4 flex gap-3" key={x}><X className="text-[#d9a441]"/>{x}</span>)}</div></div></section>
-<section className="lux-section"><div className="lux-container grid gap-12 lg:grid-cols-2"><div><Head eyebrow="Planning notes" title="Best Time to Visit"/><p className="mt-6 leading-8 text-slate-600">{d.bestTime}</p></div><div><h2 className="font-serif text-4xl">Questions about {d.name}</h2>{d.faqs.map((x,i)=><div className="border-b" key={x.question}><button className="flex w-full justify-between py-5 text-left font-semibold" onClick={()=>setFaq(faq===i?-1:i)}>{x.question}<ChevronDown className={faq===i?'rotate-180':''}/></button>{faq===i&&<p className="pb-5 text-sm leading-7 text-slate-500">{x.answer}</p>}</div>)}</div></div></section>
-<section className="lux-section"><div className="lux-container"><Head eyebrow="Continue exploring" title="Related destinations"/><div className="mt-10 grid gap-5 md:grid-cols-3">{d.related.map(slug=>{const r=destinationCatalog.find(x=>x.slug===slug);return r?<Link to={`/packages/${r.category}/${r.slug}`} key={slug} className="group relative h-72 overflow-hidden rounded-3xl"><ResponsiveTravelImage src={r.heroImage} alt={r.name} className="h-full w-full object-cover transition duration-700 group-hover:scale-110"/><div className="absolute inset-0 bg-gradient-to-t from-[#061b33] to-transparent"/><h3 className="absolute bottom-5 left-5 font-serif text-3xl text-white">{r.name}</h3></Link>:null})}</div></div></section>
-<section className="grid md:grid-cols-2"><Link to={`/packages/${prev.category}/${prev.slug}`} className="group flex min-h-[300px] items-center bg-[#0e3a5d] p-10 text-white"><ArrowLeft className="mr-5 transition group-hover:-translate-x-2"/><div><span className="text-xs uppercase tracking-widest text-white/50">Previous destination</span><h3 className="mt-2 font-serif text-4xl">{prev.name}</h3></div></Link><Link to={`/packages/${next.category}/${next.slug}`} className="group flex min-h-[300px] items-center justify-end bg-[#061b33] p-10 text-right text-white"><div><span className="text-xs uppercase tracking-widest text-white/50">Next destination</span><h3 className="mt-2 font-serif text-4xl">{next.name}</h3></div><ArrowRight className="ml-5 transition group-hover:translate-x-2"/></Link></section>
-<div className="fixed inset-x-3 bottom-3 z-40 flex gap-2 rounded-2xl bg-white p-2 shadow-2xl lg:hidden"><a href={`tel:${contact.phoneRaw}`} className="flex-1 rounded-xl bg-[#061b33] py-3 text-center text-xs font-bold text-white">Call</a><a href={wa} className="flex-1 rounded-xl bg-[#25D366] py-3 text-center text-xs font-bold text-white">WhatsApp</a></div>
-</div>}
-function Head({eyebrow,title}:{eyebrow:string;title:string}){return <div><p className="lux-eyebrow">{eyebrow}</p><h2 className="mt-4 max-w-4xl font-serif text-5xl md:text-7xl">{title}</h2></div>}
+import { useEffect, useMemo, useState } from "react";
+import { Link, useParams } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
+import { motion } from "framer-motion";
+import {
+  ArrowLeft,
+  ArrowRight,
+  Check,
+  ChevronDown,
+  Clock,
+  MapPin,
+  MessageCircle,
+  Phone,
+  X,
+} from "lucide-react";
+import {
+  categoryLabels,
+  destinationCatalog,
+  findDestination,
+} from "../data/destinationCatalog";
+import { contact } from "../data/content";
+import { ResponsiveTravelImage } from "../components/Common";
+export default function DestinationPage() {
+  const { category, destinationSlug } = useParams();
+  const d = findDestination(category, destinationSlug);
+  const [faq, setFaq] = useState(0);
+  const [lightbox, setLightbox] = useState<number | null>(null);
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [destinationSlug]);
+  const order = useMemo(
+    () => destinationCatalog.filter((x) => x.category === category),
+    [category],
+  );
+  if (!d)
+    return (
+      <div className="grid min-h-screen place-items-center bg-[#061b33] px-4 text-center text-white">
+        <div>
+          <p className="lux-eyebrow !text-[#d9a441]">Destination unavailable</p>
+          <h1 className="mt-5 font-serif text-6xl">
+            This journey is not on the map.
+          </h1>
+          <Link to="/packages" className="lux-btn-gold mt-8">
+            Explore all packages
+          </Link>
+        </div>
+      </div>
+    );
+  const pos = order.findIndex((x) => x.slug === d.slug),
+    prev = order[(pos - 1 + order.length) % order.length],
+    next = order[(pos + 1) % order.length];
+  const wa = `https://wa.me/${contact.phoneRaw}?text=${encodeURIComponent(`Hello Kakani Holidays! I am interested in a holiday package for ${d.name}. Please share the itinerary, price, availability and next steps.`)}`;
+  return (
+    <div className="bg-[#f9f7f2]">
+      <Helmet>
+        <title>{d.name} Tour Packages from India | Kakani Holidays</title>
+        <meta
+          name="description"
+          content={`Explore customized ${d.name} holiday packages with Kakani Holidays, sightseeing, accommodation and personalized travel support.`}
+        />
+        <link
+          rel="canonical"
+          href={`https://www.kakaniholidays.com/packages/${d.category}/${d.slug}`}
+        />
+      </Helmet>
+      <section className="destination-cinematic-hero relative bg-[#061b33] text-white">
+        <motion.div
+          initial={{ opacity: 0, scale: 1.06 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 1.1, ease: [0.22, 1, 0.36, 1] }}
+          className="destination-cinematic-media relative aspect-video w-full overflow-hidden"
+        >
+          <ResponsiveTravelImage
+            src={d.heroImage}
+            alt={`${d.name} holiday destination`}
+            loading="eager"
+            className="h-full w-full object-cover animate-[slowZoom_14s_ease-in-out_infinite] motion-reduce:animate-none"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#061b33]/90 via-[#061b33]/38 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#061b33]/70 via-transparent to-[#061b33]/15" />
+          <motion.span
+            initial={{ width: 0 }}
+            animate={{ width: "38%" }}
+            transition={{
+              delay: 0.55,
+              duration: 1.1,
+              ease: [0.22, 1, 0.36, 1],
+            }}
+            className="absolute bottom-0 left-0 h-1 bg-gradient-to-r from-[#e7b753] to-[#ef7046] motion-reduce:hidden"
+          />
+        </motion.div>
+        <motion.div
+          initial={{ opacity: 0, y: 28 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.28, duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+          className="lux-container relative py-8 md:absolute md:inset-x-0 md:top-1/2 md:-translate-y-1/2 md:py-0"
+        >
+          <p className="lux-eyebrow !text-[#e7b753]">
+            Home / {categoryLabels[d.category]} / {d.name}
+          </p>
+          <h1 className="mt-4 font-serif text-5xl leading-none sm:text-6xl md:mt-5 md:text-[clamp(5rem,8vw,9rem)]">
+            {d.name}
+          </h1>
+          <p className="mt-5 max-w-2xl text-base leading-7 text-white/70 md:mt-6 md:text-xl md:leading-8">
+            {d.tagline}
+          </p>
+          <div className="mt-7 flex flex-wrap gap-3 md:mt-9">
+            <a href="#itinerary" className="lux-btn-gold">
+              View itinerary
+            </a>
+            <Link to="/customised-tours" className="lux-btn-outline">
+              Plan my trip
+            </Link>
+          </div>
+        </motion.div>
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1 }}
+          className="pointer-events-none absolute bottom-7 right-7 hidden items-center gap-3 text-[9px] font-black uppercase tracking-[.22em] text-white/55 md:flex"
+        >
+          <span className="h-px w-10 bg-white/40" /> Explore {d.name}
+        </motion.div>
+      </section>
+      <section className="lux-section">
+        <div className="lux-container grid gap-14 lg:grid-cols-[1.35fr_.65fr]">
+          <article>
+            <p className="lux-eyebrow">Discover {d.name}</p>
+            <h2 className="mt-4 font-serif text-5xl md:text-7xl">
+              About This {d.name} Holiday
+            </h2>
+            {d.overview.map((p) => (
+              <p key={p} className="mt-6 leading-8 text-slate-600">
+                {p}
+              </p>
+            ))}
+            <div className="mt-10 grid grid-cols-2 gap-3">
+              {d.highlights.map((x) => (
+                <span
+                  key={x}
+                  className="flex items-center gap-2 rounded-xl bg-white p-4 text-sm"
+                >
+                  <MapPin size={17} className="text-[#d9a441]" />
+                  {x}
+                </span>
+              ))}
+            </div>
+          </article>
+          <aside className="h-fit rounded-3xl bg-[#061b33] p-7 text-white shadow-xl lg:sticky lg:top-28">
+            <p className="lux-eyebrow !text-[#d9a441]">Personalised for you</p>
+            <h3 className="mt-4 font-serif text-3xl">Plan Your Dream Trip</h3>
+            <p className="mt-4 text-sm leading-7 text-white/55">
+              Get a travel plan created around your budget, dates and interests.
+            </p>
+            {[
+              "Customized itinerary",
+              "Transparent guidance",
+              "Accommodation assistance",
+              "Sightseeing planning",
+            ].map((x) => (
+              <span className="mt-4 flex gap-2 text-sm" key={x}>
+                <Check size={16} className="text-[#d9a441]" />
+                {x}
+              </span>
+            ))}
+            <a
+              href={wa}
+              target="_blank"
+              rel="noreferrer"
+              className="lux-btn-gold mt-7 w-full"
+            >
+              <MessageCircle size={16} /> Chat & get quote
+            </a>
+            <a
+              href={`tel:${contact.phoneRaw}`}
+              className="lux-btn-outline mt-2 w-full"
+            >
+              <Phone size={16} /> Call now
+            </a>
+          </aside>
+        </div>
+      </section>
+      <section className="lux-section bg-white">
+        <div className="lux-container">
+          <Head
+            eyebrow="Explore locations"
+            title={`Places that define ${d.name}.`}
+          />
+          <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {d.locations.map((x, i) => (
+              <article
+                key={x.name}
+                className="mobile-premium-card group relative min-h-[280px] overflow-hidden rounded-[28px] border border-slate-200 bg-[linear-gradient(145deg,#ffffff,#eef5f4)] p-6 shadow-[0_18px_45px_rgba(7,26,43,.08)]"
+              >
+                <span className="text-[10px] font-black uppercase tracking-[.2em] text-[#d09d38]">
+                  0{i + 1} · Highlight
+                </span>
+                <MapPin className="mt-10 text-[#0e7b78]" size={28} />
+                <h3 className="mt-6 font-serif text-3xl text-[#061b33]">
+                  {x.name}
+                </h3>
+                <p className="mt-3 text-sm leading-7 text-slate-500">
+                  {x.description}
+                </p>
+                <span className="absolute -bottom-12 -right-12 h-32 w-32 rounded-full border-[22px] border-[#0e7b78]/[.06] transition group-hover:scale-110" />
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+      {d.galleryImages.length > 0 && (
+        <section className="overflow-hidden bg-[#061b33] py-20 text-white">
+          <div className="lux-container">
+            <Head
+              eyebrow="Destination gallery"
+              title={`${d.name}, five unforgettable views.`}
+            />
+            <p className="mt-4 max-w-xl text-sm leading-7 text-white/55">
+              Swipe through a carefully selected collection of places and
+              experiences from this journey.
+            </p>
+            <div className="destination-five-gallery mt-10 flex snap-x snap-mandatory gap-4 overflow-x-auto pb-5 md:grid md:grid-cols-12 md:grid-rows-2 md:overflow-visible">
+              {d.galleryImages.map((image, index) => (
+                <figure
+                  key={image}
+                  className={`group relative h-[360px] min-w-[86%] snap-center overflow-hidden rounded-[28px] bg-white/5 md:h-[280px] md:min-w-0 ${index === 0 ? "md:col-span-7 md:row-span-2 md:h-[576px]" : index === 1 || index === 2 ? "md:col-span-5" : "md:col-span-5"}`}
+                >
+                  <ResponsiveTravelImage
+                    src={image}
+                    alt={`${d.name} travel view ${index + 1}`}
+                    className="h-full w-full object-cover transition duration-700 group-hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#061b33]/65 via-transparent to-transparent" />
+                  <figcaption className="absolute bottom-5 left-5 flex items-center gap-2 text-xs font-bold">
+                    <span className="grid h-7 w-7 place-items-center rounded-full bg-[#e7b753] text-[10px] text-[#061b33]">
+                      {index + 1}
+                    </span>
+                    {d.name}
+                  </figcaption>
+                </figure>
+              ))}
+            </div>
+            <div
+              className="mt-2 flex justify-center gap-2 md:hidden"
+              aria-hidden="true"
+            >
+              {d.galleryImages.map((_, index) => (
+                <span
+                  key={index}
+                  className={`h-1.5 rounded-full ${index === 0 ? "w-6 bg-[#e7b753]" : "w-1.5 bg-white/25"}`}
+                />
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+      <section id="itinerary" className="scroll-mt-24 bg-[#f4f6fa] py-20">
+        <div className="lux-container">
+          <div className="grid gap-8 lg:grid-cols-[.72fr_1.28fr]">
+            <article className="h-fit overflow-hidden rounded-[28px] bg-[#123f73] text-white shadow-[0_22px_60px_rgba(18,63,115,.22)] lg:sticky lg:top-28">
+              <div className="grid h-44 place-items-center bg-[radial-gradient(circle_at_50%_20%,rgba(231,183,83,.28),transparent_55%)]">
+                <MapPin size={48} className="text-[#e7b753]" />
+              </div>
+              <div className="p-6">
+                <span className="inline-flex rounded-full bg-[#ef4c4f] px-3 py-1.5 text-[9px] font-black uppercase tracking-widest">
+                  {categoryLabels[d.category]}
+                </span>
+                <h3 className="mt-4 font-serif text-3xl">
+                  {d.name} Essential Journey
+                </h3>
+                <div className="mt-4 flex items-center gap-2 text-sm text-white/70">
+                  <Clock size={16} />
+                  {d.itinerary.length - 1} Nights · {d.itinerary.length} Days
+                </div>
+                <div className="mt-5 flex flex-wrap gap-2">
+                  {d.inclusions.slice(0, 3).map((x) => (
+                    <span
+                      className="rounded-full bg-white/10 px-3 py-2 text-[10px]"
+                      key={x}
+                    >
+                      {x}
+                    </span>
+                  ))}
+                </div>
+                <div className="mt-6 border-t border-white/15 pt-5">
+                  <p className="text-xs font-bold text-white/65">
+                    Price available on request
+                  </p>
+                  <a
+                    href={wa}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="mt-4 flex items-center justify-center gap-2 rounded-xl bg-[#ef4c4f] px-5 py-3 text-xs font-black uppercase tracking-wide transition hover:bg-white hover:text-[#123f73]"
+                  >
+                    <MessageCircle size={15} /> Request itinerary
+                  </a>
+                </div>
+              </div>
+            </article>
+            <div>
+              <div className="overflow-hidden rounded-[28px] bg-white shadow-[0_18px_50px_rgba(7,26,43,.08)]">
+                <div className="relative overflow-hidden bg-[#123f73] px-6 py-7 text-white md:px-8">
+                  <div className="absolute -right-10 -top-16 h-44 w-44 rounded-full border-[28px] border-white/[.06]" />
+                  <p className="text-[9px] font-black uppercase tracking-[.22em] text-[#ffb1a8]">
+                    Your travel planner
+                  </p>
+                  <div className="mt-2 flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
+                    <div>
+                      <h2 className="font-serif text-4xl md:text-5xl">
+                        Day-wise Tour Plan
+                      </h2>
+                      <p className="mt-2 text-sm text-white/60">
+                        A clear view of every chapter in your {d.name} journey.
+                      </p>
+                    </div>
+                    <span className="w-fit rounded-full bg-white/10 px-4 py-2 text-xs font-bold">
+                      {d.itinerary.length} Days
+                    </span>
+                  </div>
+                </div>
+                <div className="grid gap-4 p-4 md:grid-cols-2 md:p-6">
+                  {d.itinerary.map((x, i) => (
+                    <motion.article
+                      whileHover={{ y: -5 }}
+                      key={x.day}
+                      className="group relative overflow-hidden rounded-[22px] border border-slate-100 bg-[#f8f9fc] p-5 transition hover:shadow-[0_16px_35px_rgba(18,63,115,.12)]"
+                    >
+                      <div
+                        className={`absolute inset-y-0 left-0 w-1.5 ${i % 2 ? "bg-[#ef4c4f]" : "bg-[#1d5d99]"}`}
+                      />
+                      <div className="flex items-start justify-between">
+                        <span
+                          className={`grid h-12 w-12 place-items-center rounded-2xl text-lg font-black text-white ${i % 2 ? "bg-[#ef4c4f]" : "bg-[#1d5d99]"}`}
+                        >
+                          {String(x.day).padStart(2, "0")}
+                        </span>
+                        <span className="rounded-full bg-white px-3 py-1.5 text-[9px] font-black uppercase tracking-widest text-slate-400 shadow-sm">
+                          Day {x.day}
+                        </span>
+                      </div>
+                      <div className="mt-5 flex items-center gap-2 text-[10px] font-bold uppercase tracking-wider text-[#ef4c4f]">
+                        <MapPin size={13} />
+                        {d.highlights[i % d.highlights.length]}
+                      </div>
+                      <h3 className="mt-2 font-serif text-2xl leading-tight text-[#102f55]">
+                        {x.title}
+                      </h3>
+                      <p className="mt-3 text-sm leading-6 text-slate-500">
+                        {x.description}
+                      </p>
+                      <div
+                        className={`mt-5 h-1 w-10 rounded-full transition-all duration-500 group-hover:w-full ${i % 2 ? "bg-[#ef4c4f]" : "bg-[#1d5d99]"}`}
+                      />
+                    </motion.article>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section className="lux-section bg-[#061b33] text-white">
+        <div className="lux-container grid gap-12 md:grid-cols-2">
+          <div>
+            <h3 className="font-serif text-4xl text-[#d9a441]">Inclusions</h3>
+            {d.inclusions.map((x) => (
+              <span className="mt-4 flex gap-3" key={x}>
+                <Check className="text-[#d9a441]" />
+                {x}
+              </span>
+            ))}
+          </div>
+          <div>
+            <h3 className="font-serif text-4xl text-[#d9a441]">Exclusions</h3>
+            {d.exclusions.map((x) => (
+              <span className="mt-4 flex gap-3" key={x}>
+                <X className="text-[#d9a441]" />
+                {x}
+              </span>
+            ))}
+          </div>
+        </div>
+      </section>
+      <section className="lux-section">
+        <div className="lux-container grid gap-12 lg:grid-cols-2">
+          <div>
+            <Head eyebrow="Planning notes" title="Best Time to Visit" />
+            <p className="mt-6 leading-8 text-slate-600">{d.bestTime}</p>
+          </div>
+          <div>
+            <h2 className="font-serif text-4xl">Questions about {d.name}</h2>
+            {d.faqs.map((x, i) => (
+              <div className="border-b" key={x.question}>
+                <button
+                  className="flex w-full justify-between py-5 text-left font-semibold"
+                  onClick={() => setFaq(faq === i ? -1 : i)}
+                >
+                  {x.question}
+                  <ChevronDown className={faq === i ? "rotate-180" : ""} />
+                </button>
+                {faq === i && (
+                  <p className="pb-5 text-sm leading-7 text-slate-500">
+                    {x.answer}
+                  </p>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+      <section className="lux-section">
+        <div className="lux-container">
+          <Head eyebrow="Continue exploring" title="Related destinations" />
+          <div className="mt-10 grid gap-5 md:grid-cols-3">
+            {d.related.map((slug) => {
+              const r = destinationCatalog.find((x) => x.slug === slug);
+              return r ? (
+                <Link
+                  to={`/packages/${r.category}/${r.slug}`}
+                  key={slug}
+                  className="group relative h-72 overflow-hidden rounded-3xl"
+                >
+                  <ResponsiveTravelImage
+                    src={r.heroImage}
+                    alt={r.name}
+                    className="h-full w-full object-cover transition duration-700 group-hover:scale-110"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#061b33] to-transparent" />
+                  <h3 className="absolute bottom-5 left-5 font-serif text-3xl text-white">
+                    {r.name}
+                  </h3>
+                </Link>
+              ) : null;
+            })}
+          </div>
+        </div>
+      </section>
+      <section className="grid md:grid-cols-2">
+        <Link
+          to={`/packages/${prev.category}/${prev.slug}`}
+          className="group flex min-h-[300px] items-center bg-[#0e3a5d] p-10 text-white"
+        >
+          <ArrowLeft className="mr-5 transition group-hover:-translate-x-2" />
+          <div>
+            <span className="text-xs uppercase tracking-widest text-white/50">
+              Previous destination
+            </span>
+            <h3 className="mt-2 font-serif text-4xl">{prev.name}</h3>
+          </div>
+        </Link>
+        <Link
+          to={`/packages/${next.category}/${next.slug}`}
+          className="group flex min-h-[300px] items-center justify-end bg-[#061b33] p-10 text-right text-white"
+        >
+          <div>
+            <span className="text-xs uppercase tracking-widest text-white/50">
+              Next destination
+            </span>
+            <h3 className="mt-2 font-serif text-4xl">{next.name}</h3>
+          </div>
+          <ArrowRight className="ml-5 transition group-hover:translate-x-2" />
+        </Link>
+      </section>
+      <div className="fixed inset-x-3 bottom-3 z-40 flex gap-2 rounded-2xl bg-white p-2 shadow-2xl lg:hidden">
+        <a
+          href={`tel:${contact.phoneRaw}`}
+          className="flex-1 rounded-xl bg-[#061b33] py-3 text-center text-xs font-bold text-white"
+        >
+          Call
+        </a>
+        <a
+          href={wa}
+          className="flex-1 rounded-xl bg-[#25D366] py-3 text-center text-xs font-bold text-white"
+        >
+          WhatsApp
+        </a>
+      </div>
+    </div>
+  );
+}
+function Head({ eyebrow, title }: { eyebrow: string; title: string }) {
+  return (
+    <div>
+      <p className="lux-eyebrow">{eyebrow}</p>
+      <h2 className="mt-4 max-w-4xl font-serif text-5xl md:text-7xl">
+        {title}
+      </h2>
+    </div>
+  );
+}
