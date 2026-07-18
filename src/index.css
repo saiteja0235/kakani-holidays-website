@@ -92,3 +92,15 @@ form[aria-label="Find a holiday"] .search-field:hover{border-color:rgba(231,183,
 @keyframes travelImageReveal{from{opacity:0;transform:scale(1.035)}to{opacity:1;transform:scale(1)}}
 @media(max-width:767px){.travel-motion-image{animation-duration:.55s}.group:active .travel-motion-image{transform:scale(1.025)}}
 @media(prefers-reduced-motion:reduce){.travel-motion-image{animation:none!important;transition:none!important}.group:hover .travel-motion-image{transform:none}}
+
+/* Premium glass surfaces and lightweight cinematic movement across the homepage. */
+main .lux-section,main section{position:relative}
+main article,main .search-field{transform:translateZ(0);transition:transform .55s cubic-bezier(.22,1,.36,1),box-shadow .55s ease,border-color .4s ease}
+main article:hover{box-shadow:0 28px 75px rgba(6,27,51,.13)}
+main .backdrop-blur,main .backdrop-blur-xl{border-color:rgba(255,255,255,.35);box-shadow:inset 0 1px rgba(255,255,255,.35),0 20px 60px rgba(6,27,51,.12);-webkit-backdrop-filter:blur(20px);backdrop-filter:blur(20px)}
+.destination-carousel-image{animation:destinationKenBurns 3.7s linear both;will-change:transform}
+.destination-carousel-progress{transform-origin:left;animation:destinationProgress 3.6s linear both}
+@keyframes destinationKenBurns{from{transform:scale(1.055)}to{transform:scale(1.015) translate3d(-.5%,0,0)}}
+@keyframes destinationProgress{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+@media(max-width:767px){main .backdrop-blur,main .backdrop-blur-xl{-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}.destination-auto-gallery{aspect-ratio:4/5}.destination-auto-gallery figcaption{bottom:1.5rem;left:1.25rem}.destination-auto-gallery>div:nth-last-child(2){bottom:1.5rem;right:1.25rem}}
+@media(prefers-reduced-motion:reduce){.destination-carousel-image,.destination-carousel-progress{animation:none!important}}

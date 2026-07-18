@@ -1,5 +1,6 @@
 ﻿import {useEffect,useState} from 'react';
 import {Link,NavLink,useLocation} from 'react-router-dom';
+import {useLayoutEffect} from 'react';
 import {Menu,X,Phone,ArrowUp,ArrowLeft,ChevronDown,ChevronRight,Instagram,Facebook,MessageCircle,Globe2,Landmark,MapPinned,PackageOpen,Plane,Send,Mic,MoreHorizontal,Youtube,Linkedin} from 'lucide-react';
 import {AnimatePresence,motion} from 'framer-motion';
 import {contact} from '../data/content';
@@ -19,9 +20,9 @@ function LanguageSelector(){const [lang,setLang]=useState(()=>localStorage.getIt
 
 export function Layout({children}:{children:React.ReactNode}){
  const [scrolled,setScrolled]=useState(false);const [mobileMenuOpen,setMobileMenuOpen]=useState(false);const loc=useLocation();const home=loc.pathname==='/';const glass=home&&!scrolled;
- useEffect(()=>{window.scrollTo(0,0)},[loc.pathname]);
+ useLayoutEffect(()=>{document.documentElement.scrollTop=0;document.body.scrollTop=0;window.scrollTo({top:0,left:0,behavior:'auto'});const frame=requestAnimationFrame(()=>window.scrollTo(0,0));return()=>cancelAnimationFrame(frame)},[loc.pathname,loc.search]);
  useEffect(()=>{setMobileMenuOpen(false)},[loc.pathname]);
- useEffect(()=>{if(!mobileMenuOpen)return;const scrollY=window.scrollY;const body=document.body;const previous={position:body.style.position,top:body.style.top,width:body.style.width,overflow:body.style.overflow};body.style.position='fixed';body.style.top=`-${scrollY}px`;body.style.width='100%';body.style.overflow='hidden';const close=(event:KeyboardEvent)=>{if(event.key==='Escape')setMobileMenuOpen(false)};document.addEventListener('keydown',close);return()=>{document.removeEventListener('keydown',close);body.style.position=previous.position;body.style.top=previous.top;body.style.width=previous.width;body.style.overflow=previous.overflow;window.scrollTo(0,scrollY)}},[mobileMenuOpen]);
+ useEffect(()=>{if(!mobileMenuOpen)return;const scrollY=window.scrollY;const routeAtOpen=window.location.pathname;const body=document.body;const previous={position:body.style.position,top:body.style.top,width:body.style.width,overflow:body.style.overflow};body.style.position='fixed';body.style.top=`-${scrollY}px`;body.style.width='100%';body.style.overflow='hidden';const close=(event:KeyboardEvent)=>{if(event.key==='Escape')setMobileMenuOpen(false)};document.addEventListener('keydown',close);return()=>{document.removeEventListener('keydown',close);body.style.position=previous.position;body.style.top=previous.top;body.style.width=previous.width;body.style.overflow=previous.overflow;if(window.location.pathname===routeAtOpen)window.scrollTo(0,scrollY)}},[mobileMenuOpen]);
  useEffect(()=>{const update=()=>setScrolled(window.scrollY>35);update();addEventListener('scroll',update,{passive:true});return()=>removeEventListener('scroll',update)},[]);
  const navClass=({isActive}:{isActive:boolean})=>`relative rounded-full px-3.5 py-2 text-[13px] font-extrabold tracking-wide transition ${glass?(isActive?'bg-white/15 text-white':'text-white/85 hover:bg-white/10 hover:text-white'):(isActive?'border border-dashed border-ocean text-ocean':'text-navy hover:text-ocean')}`;
  return <div className="relative min-h-screen bg-ivory">

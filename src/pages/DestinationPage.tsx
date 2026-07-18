@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import {
   ArrowLeft,
   ArrowRight,
@@ -24,10 +24,19 @@ export default function DestinationPage() {
   const { category, destinationSlug } = useParams();
   const d = findDestination(category, destinationSlug);
   const [faq, setFaq] = useState(0);
-  const [lightbox, setLightbox] = useState<number | null>(null);
+  const [galleryIndex, setGalleryIndex] = useState(0);
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [destinationSlug]);
+  useEffect(() => {
+    setGalleryIndex(0);
+    if (!d?.galleryImages.length) return;
+    const timer = window.setInterval(
+      () => setGalleryIndex((current) => (current + 1) % d.galleryImages.length),
+      3600,
+    );
+    return () => window.clearInterval(timer);
+  }, [d?.slug, d?.galleryImages.length]);
   const order = useMemo(
     () => destinationCatalog.filter((x) => x.category === category),
     [category],
@@ -216,49 +225,31 @@ export default function DestinationPage() {
               title={`${d.name}, five unforgettable views.`}
             />
             <p className="mt-4 max-w-xl text-sm leading-7 text-white/55">
-              Swipe through a carefully selected collection of places and
-              experiences from this journey.
+              Five carefully selected views play automatically, bringing the
+              character of this journey to life.
             </p>
-            <div className="destination-five-gallery mt-10 flex snap-x snap-mandatory gap-4 overflow-x-auto pb-5 md:grid md:grid-cols-12 md:grid-rows-2 md:overflow-visible">
-              {d.galleryImages.map((image, index) => (
-                <motion.figure
-                  key={image}
-                  initial={{ opacity: 0, y: 30, scale: 0.98 }}
-                  whileInView={{ opacity: 1, y: 0, scale: 1 }}
-                  viewport={{ once: true, margin: "-60px" }}
-                  transition={{
-                    duration: 0.65,
-                    delay: index * 0.06,
-                    ease: [0.22, 1, 0.36, 1],
-                  }}
-                  className={`group relative h-[360px] min-w-[86%] snap-center overflow-hidden rounded-[28px] bg-white/5 md:h-[280px] md:min-w-0 ${index === 0 ? "md:col-span-7 md:row-span-2 md:h-[576px]" : index === 1 || index === 2 ? "md:col-span-5" : "md:col-span-5"}`}
-                >
+            <motion.div initial={{opacity:0,y:30}} whileInView={{opacity:1,y:0}} viewport={{once:true,margin:"-60px"}} className="destination-auto-gallery group relative mt-10 aspect-video overflow-hidden rounded-[30px] border border-white/15 bg-white/5 shadow-[0_35px_90px_rgba(0,0,0,.35)]">
+              <AnimatePresence initial={false} mode="popLayout">
+                <motion.figure key={d.galleryImages[galleryIndex]} initial={{opacity:0,scale:1.07,x:45}} animate={{opacity:1,scale:1,x:0}} exit={{opacity:0,scale:1.02,x:-35}} transition={{duration:.9,ease:[.22,1,.36,1]}} className="absolute inset-0 overflow-hidden">
                   <ResponsiveTravelImage
-                    src={image}
-                    alt={`${d.name} travel view ${index + 1}`}
-                    className="h-full w-full object-cover transition duration-700 group-hover:scale-105"
+                    src={d.galleryImages[galleryIndex]}
+                    alt={`${d.name} travel view ${galleryIndex + 1}`}
+                    className="destination-carousel-image h-full w-full object-cover"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#061b33]/65 via-transparent to-transparent" />
-                  <figcaption className="absolute bottom-5 left-5 flex items-center gap-2 text-xs font-bold">
-                    <span className="grid h-7 w-7 place-items-center rounded-full bg-[#e7b753] text-[10px] text-[#061b33]">
-                      {index + 1}
-                    </span>
-                    {d.name}
-                  </figcaption>
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#061b33]/75 via-transparent to-[#061b33]/10" />
+                  <figcaption className="absolute bottom-7 left-7 text-white"><span className="text-[10px] font-black uppercase tracking-[.22em] text-[#e7b753]">View {galleryIndex+1} of {d.galleryImages.length}</span><p className="mt-2 font-serif text-2xl md:text-4xl">Discover {d.name}</p></figcaption>
                 </motion.figure>
-              ))}
-            </div>
-            <div
-              className="mt-2 flex justify-center gap-2 md:hidden"
-              aria-hidden="true"
-            >
+              </AnimatePresence>
+              <div className="absolute bottom-7 right-7 z-10 flex gap-2">
               {d.galleryImages.map((_, index) => (
-                <span
+                <button type="button" onClick={()=>setGalleryIndex(index)} aria-label={`Show ${d.name} gallery image ${index+1}`}
                   key={index}
-                  className={`h-1.5 rounded-full ${index === 0 ? "w-6 bg-[#e7b753]" : "w-1.5 bg-white/25"}`}
+                  className={`h-2 rounded-full transition-all duration-500 ${index === galleryIndex ? "w-8 bg-[#e7b753]" : "w-2 bg-white/40 hover:bg-white/70"}`}
                 />
               ))}
-            </div>
+              </div>
+              <div className="destination-carousel-progress absolute inset-x-0 bottom-0 h-1 bg-[#e7b753]" key={`progress-${galleryIndex}`}/>
+            </motion.div>
           </div>
         </section>
       )}
