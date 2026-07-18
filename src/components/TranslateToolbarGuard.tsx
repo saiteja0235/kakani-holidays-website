@@ -1,0 +1,5 @@
+import {useEffect} from 'react';
+
+const selectors=['iframe.goog-te-banner-frame','iframe.skiptranslate','.goog-te-banner-frame','.VIpgJd-ZVi9od-ORHb-OEVmcd','#goog-gt-tt','.goog-te-balloon-frame'];
+
+export default function TranslateToolbarGuard(){useEffect(()=>{const suppress=()=>{document.documentElement.style.setProperty('top','0px','important');document.body.style.setProperty('top','0px','important');for(const selector of selectors)document.querySelectorAll<HTMLElement>(selector).forEach(element=>{element.style.setProperty('display','none','important');element.style.setProperty('visibility','hidden','important');element.style.setProperty('height','0','important');element.setAttribute('aria-hidden','true')})};suppress();const observer=new MutationObserver(suppress);observer.observe(document.documentElement,{childList:true,subtree:true,attributes:true,attributeFilter:['style','class']});const timer=window.setInterval(suppress,500);return()=>{observer.disconnect();clearInterval(timer)}},[]);return null}

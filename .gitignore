@@ -1,0 +1,11 @@
+node_modules/
+dist/
+*.tsbuildinfo
+*.log
+.env
+.env.*
+!.env.example
+.agents/
+.DS_Store
+Thumbs.db
+*-backup.png
