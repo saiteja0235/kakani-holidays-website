@@ -44,3 +44,15 @@ form[aria-label="Find a holiday"] .search-field:hover{border-color:rgba(231,183,
 .hero-swiper .swiper-pagination-bullet{width:8px;height:8px;background:rgba(255,255,255,.65)!important;opacity:1;transition:width .25s,background .25s}
 .hero-swiper .swiper-pagination-bullet-active{width:24px;border-radius:999px;background:#e7b753!important}
 @media(max-width:767px){.hero-swiper .swiper-pagination{bottom:7.25rem!important}}
+/* Lightweight mobile intro, including WebKit/iPhone GPU safeguards. */
+@media(max-width:767px){
+  .signature-light,.signature-flare,.logo-sweep{display:none!important}
+  .signature-logo-stage img{filter:none!important}
+  .signature-intro{transform:translateZ(0);backface-visibility:hidden}
+}
+@supports(-webkit-touch-callout:none){
+  @media(max-width:767px){
+    main section:not(:first-child){content-visibility:visible;contain:none}
+    .signature-intro{isolation:isolate}
+  }
+}
