@@ -40,7 +40,7 @@ export function Layout({children}:{children:React.ReactNode}){
      <Link to="/customised-tours" className={`rounded-full px-5 py-3 text-[11px] font-black uppercase tracking-wider shadow-lg transition hover:-translate-y-0.5 ${glass?'bg-white text-[#125c4c]':'bg-[#125c4c] text-white'}`}>Book Now</Link>
      <a href={`tel:${contact.phoneRaw}`} aria-label={`Call ${contact.phone}`} className={`grid h-11 w-11 place-items-center rounded-full border transition ${glass?'border-white/30 text-white hover:bg-white hover:text-navy':'border-ocean text-ocean hover:bg-ocean hover:text-white'}`}><Phone size={18}/></a>
     </div>
-    <button type="button" className="relative z-[60] touch-manipulation rounded-xl bg-navy p-3 text-white lg:hidden" aria-label="Open menu" onClick={()=>setOpen(true)}><Menu/></button>
+    <button type="button" className="relative z-[60] touch-manipulation rounded-xl bg-navy p-3 text-white lg:hidden" aria-label="Open menu" onClick={()=>setOpen(true)} onTouchEnd={e=>{e.preventDefault();setOpen(true)}}><Menu/></button>
    </div>
   </header>
   {open&&<MobileNav close={()=>setOpen(false)}/>} 
