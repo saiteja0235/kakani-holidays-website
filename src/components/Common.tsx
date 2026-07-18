@@ -149,7 +149,14 @@ export function SectionTitle({
 export function PackageCard({ pkg }: { pkg: Package }) {
   const wa = `https://wa.me/${contact.phoneRaw}?text=${encodeURIComponent(`Hello Kakani Holidays, I would like details about ${pkg.title}.`)}`;
   return (
-    <article className="group flex h-full flex-col overflow-hidden rounded-[1.5rem] bg-white shadow-soft">
+    <motion.article
+      initial={{ opacity: 0, y: 34, scale: 0.98 }}
+      whileInView={{ opacity: 1, y: 0, scale: 1 }}
+      viewport={{ once: true, margin: "-70px" }}
+      transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
+      whileHover={{ y: -7 }}
+      className="group flex h-full flex-col overflow-hidden rounded-[1.5rem] bg-white shadow-soft"
+    >
       <div className="relative h-60 overflow-hidden">
         <SmartImage
           src={pkg.image}
@@ -196,7 +203,7 @@ export function PackageCard({ pkg }: { pkg: Package }) {
           </a>
         </div>
       </div>
-    </article>
+    </motion.article>
   );
 }
 export function PageHero({

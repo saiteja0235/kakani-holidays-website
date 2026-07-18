@@ -221,8 +221,16 @@ export default function DestinationPage() {
             </p>
             <div className="destination-five-gallery mt-10 flex snap-x snap-mandatory gap-4 overflow-x-auto pb-5 md:grid md:grid-cols-12 md:grid-rows-2 md:overflow-visible">
               {d.galleryImages.map((image, index) => (
-                <figure
+                <motion.figure
                   key={image}
+                  initial={{ opacity: 0, y: 30, scale: 0.98 }}
+                  whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                  viewport={{ once: true, margin: "-60px" }}
+                  transition={{
+                    duration: 0.65,
+                    delay: index * 0.06,
+                    ease: [0.22, 1, 0.36, 1],
+                  }}
                   className={`group relative h-[360px] min-w-[86%] snap-center overflow-hidden rounded-[28px] bg-white/5 md:h-[280px] md:min-w-0 ${index === 0 ? "md:col-span-7 md:row-span-2 md:h-[576px]" : index === 1 || index === 2 ? "md:col-span-5" : "md:col-span-5"}`}
                 >
                   <ResponsiveTravelImage
@@ -237,7 +245,7 @@ export default function DestinationPage() {
                     </span>
                     {d.name}
                   </figcaption>
-                </figure>
+                </motion.figure>
               ))}
             </div>
             <div
@@ -318,16 +326,27 @@ export default function DestinationPage() {
                     </span>
                   </div>
                 </div>
-                <div className="grid gap-4 p-4 md:grid-cols-2 md:p-6">
+                <div className="relative space-y-5 p-4 before:absolute before:bottom-10 before:left-[43px] before:top-10 before:w-px before:bg-gradient-to-b before:from-[#e7b753] before:via-[#1d5d99]/35 before:to-transparent md:p-8 md:before:left-[67px]">
                   {d.itinerary.map((x, i) => (
                     <motion.article
-                      whileHover={{ y: -5 }}
+                      initial={{ opacity: 0, x: 34 }}
+                      whileInView={{ opacity: 1, x: 0 }}
+                      viewport={{ once: true, margin: "-70px" }}
+                      transition={{
+                        duration: 0.65,
+                        delay: i * 0.08,
+                        ease: [0.22, 1, 0.36, 1],
+                      }}
+                      whileHover={{ x: 8, scale: 1.01 }}
                       key={x.day}
-                      className="group relative overflow-hidden rounded-[22px] border border-slate-100 bg-[#f8f9fc] p-5 transition hover:shadow-[0_16px_35px_rgba(18,63,115,.12)]"
+                      className="group relative ml-14 overflow-hidden rounded-[24px] border border-slate-100 bg-[linear-gradient(135deg,#fff,#f5f8fa)] p-5 shadow-[0_14px_35px_rgba(18,63,115,.08)] transition hover:shadow-[0_22px_50px_rgba(18,63,115,.15)] md:ml-20 md:p-7"
                     >
                       <div
                         className={`absolute inset-y-0 left-0 w-1.5 ${i % 2 ? "bg-[#ef4c4f]" : "bg-[#1d5d99]"}`}
                       />
+                      <div className="absolute -left-[58px] top-5 z-10 md:-left-[78px] md:top-7">
+                        <span className="absolute inset-0 animate-ping rounded-full bg-[#e7b753]/20 motion-reduce:animate-none" />
+                      </div>
                       <div className="flex items-start justify-between">
                         <span
                           className={`grid h-12 w-12 place-items-center rounded-2xl text-lg font-black text-white ${i % 2 ? "bg-[#ef4c4f]" : "bg-[#1d5d99]"}`}

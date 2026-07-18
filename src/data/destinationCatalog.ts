@@ -305,6 +305,12 @@ const suppliedAvif = new Set([
   "manali",
   "meghalaya",
   "mysore-ooty",
+  "ayodhya-varanasi",
+  "chardham",
+  "gujarat",
+  "karnataka-temple-tour",
+  "manasarovar",
+  "tamil-nadu",
 ]);
 const img = (slug: string, _cat: Category) =>
   `/images/catalog/${slug}.${suppliedAvif.has(slug) ? "avif" : "jpg"}`;
