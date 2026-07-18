@@ -56,3 +56,9 @@ form[aria-label="Find a holiday"] .search-field:hover{border-color:rgba(231,183,
     .signature-intro{isolation:isolate}
   }
 }
+/* Mobile images stay static so Safari/Android can prioritize decoding and scrolling. */
+@media(max-width:767px){
+  main img{animation:none!important;transition:none!important;transform:none}
+  main .swiper-slide{transition-duration:0ms!important}
+  main [data-mask]{clip-path:none!important;transform:none!important;opacity:1!important}
+}
