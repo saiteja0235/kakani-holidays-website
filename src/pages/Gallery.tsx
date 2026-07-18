@@ -36,10 +36,11 @@ export default function Gallery() {
 
   useEffect(() => {
     if (selected === null) return;
-    const previous = document.body.style.overflow;
     document.body.style.overflow = "hidden";
+    document.documentElement.style.overflow = "hidden";
     return () => {
-      document.body.style.overflow = previous;
+      document.body.style.overflow = "";
+      document.documentElement.style.overflow = "";
     };
   }, [selected]);
 
