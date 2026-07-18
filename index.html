@@ -1,1 +1,45 @@
-<!doctype html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover"/><meta name="theme-color" content="#071A2B"/><link rel="icon" type="image/png" href="/images/brand/kakani-logo-transparent.png"/><link rel="shortcut icon" href="/images/brand/kakani-logo-transparent.png"/><link rel="apple-touch-icon" href="/images/brand/kakani-logo-transparent.png"/><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet"><style>#native-intro{position:fixed;inset:0;z-index:9999;display:grid;place-items:center;background:radial-gradient(circle at 50% 45%,#0a2744 0,#071527 46%,#040812 82%);animation:nativeIntro 2s ease forwards}#native-intro img{width:min(84vw,620px);animation:nativeLogo 1.35s cubic-bezier(.22,1,.36,1) both}@keyframes nativeLogo{from{opacity:0;transform:translateY(10px) scale(.9)}45%,to{opacity:1;transform:none}}@keyframes nativeIntro{0%,88%{opacity:1;visibility:visible;pointer-events:auto}to{opacity:0;visibility:hidden;pointer-events:none}}</style><title>Kakani Holidays</title></head><body><div id="native-intro" aria-hidden="true"><img src="/images/brand/kakani-logo-transparent.png" alt=""/></div><div id="root"></div><script type="module" src="/src/main.tsx"></script></body></html>
+<!doctype html>
+<html lang="en">
+<head>
+ <meta charset="UTF-8"/>
+ <meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover"/>
+ <meta name="theme-color" content="#071A2B"/>
+ <link rel="icon" type="image/png" href="/images/brand/kakani-logo-transparent.png"/>
+ <link rel="apple-touch-icon" href="/images/brand/kakani-logo-transparent.png"/>
+ <link rel="preconnect" href="https://fonts.googleapis.com">
+ <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+ <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+ <style>
+  #native-intro{position:fixed;inset:0;z-index:9999;display:grid;place-items:center;overflow:hidden;background:radial-gradient(circle at 50% 45%,#103654 0,#071527 44%,#030711 82%);animation:introExit 2.2s cubic-bezier(.76,0,.24,1) forwards}
+  #native-intro:before{content:"";position:absolute;width:min(90vw,760px);aspect-ratio:1;border:1px solid rgba(231,183,83,.18);border-radius:50%;box-shadow:0 0 90px rgba(25,151,167,.18),inset 0 0 90px rgba(25,151,167,.08);animation:orbitPulse 1.8s ease-out both}
+  #native-intro:after{content:"";position:absolute;inset:-20%;background:linear-gradient(115deg,transparent 38%,rgba(255,224,155,.1) 48%,transparent 58%);transform:translateX(-60%);animation:lightPass 1.7s .25s ease-in-out both}
+  .native-intro-logo{position:relative;z-index:3;width:min(84vw,620px);filter:drop-shadow(0 14px 35px rgba(0,0,0,.28));animation:logoArrive 1.2s .55s cubic-bezier(.22,1,.36,1) both}
+  .native-intro-plane{position:absolute;z-index:4;left:-12%;top:58%;color:#efbd56;font:700 clamp(24px,6vw,44px)/1 sans-serif;text-shadow:0 0 14px rgba(239,189,86,.8);animation:planeFlight 1.4s .08s cubic-bezier(.35,.04,.2,1) both}
+  .native-intro-caption{position:absolute;z-index:3;bottom:max(7vh,34px);margin:0;color:rgba(237,207,143,.72);font:700 9px/1.4 Manrope,sans-serif;letter-spacing:.3em;text-transform:uppercase;animation:captionIn 1s .85s ease both}
+  @keyframes planeFlight{0%{opacity:0;transform:translate3d(0,30px,0) rotate(-12deg) scale(.75)}15%{opacity:1}75%{opacity:1}100%{opacity:0;transform:translate3d(112vw,-32vh,0) rotate(-5deg) scale(1.05)}}
+  @keyframes logoArrive{from{opacity:0;transform:translateY(20px) scale(.88);filter:blur(8px)}to{opacity:1;transform:none;filter:drop-shadow(0 14px 35px rgba(0,0,0,.28))}}
+  @keyframes orbitPulse{from{opacity:0;transform:scale(.7) rotate(-12deg)}55%{opacity:1}to{opacity:.35;transform:scale(1.08) rotate(5deg)}}
+  @keyframes lightPass{to{transform:translateX(60%)}}
+  @keyframes captionIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+  @keyframes introExit{0%,88%{opacity:1;visibility:visible;pointer-events:auto}to{opacity:0;visibility:hidden;pointer-events:none}}
+  .native-mobile-panel{display:block;position:fixed;inset:0;z-index:500;overflow-y:auto;padding:0 1rem 2rem;color:#fff;background:radial-gradient(circle at 85% 10%,rgba(24,119,132,.28),transparent 32%),#071d33;opacity:0;visibility:hidden;pointer-events:none;transform:translate3d(100%,0,0);transition:transform .36s cubic-bezier(.22,1,.36,1),opacity .22s ease,visibility .36s}
+  #native-mobile-menu:checked~.native-mobile-panel{opacity:1;visibility:visible;pointer-events:auto;transform:none}
+  #native-mobile-menu:checked~.native-mobile-panel nav>a,#native-mobile-menu:checked~.native-mobile-panel nav>details{animation:menuItemIn .38s ease both}
+  #native-mobile-menu:checked~.native-mobile-panel nav>:nth-child(2){animation-delay:.04s}#native-mobile-menu:checked~.native-mobile-panel nav>:nth-child(3){animation-delay:.08s}#native-mobile-menu:checked~.native-mobile-panel nav>:nth-child(4){animation-delay:.12s}#native-mobile-menu:checked~.native-mobile-panel nav>:nth-child(5){animation-delay:.16s}#native-mobile-menu:checked~.native-mobile-panel nav>:nth-child(6){animation-delay:.2s}
+  @keyframes menuItemIn{from{opacity:0;transform:translateX(18px)}to{opacity:1;transform:none}}
+  @media(min-width:1024px){.native-mobile-panel{display:none!important}}
+  @media(prefers-reduced-motion:reduce){#native-intro{animation-duration:.15s}.native-intro-plane,.native-intro-logo,.native-intro-caption{animation:none}.native-mobile-panel{transition:none}}
+ </style>
+ <title>Kakani Holidays</title>
+</head>
+<body>
+ <div id="native-intro" aria-hidden="true">
+  <span class="native-intro-plane">✈</span>
+  <img class="native-intro-logo" src="/images/brand/kakani-logo-transparent.png" alt=""/>
+  <p class="native-intro-caption">Your world of journeys begins here</p>
+ </div>
+ <div id="root"></div>
+ <script type="module" src="/src/main.tsx"></script>
+</body>
+</html>
+
