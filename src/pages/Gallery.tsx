@@ -59,7 +59,7 @@ export default function Gallery() {
           initial={{ scale: 1.12 }}
           animate={{ scale: 1 }}
           transition={{ duration: 1.8, ease: [0.22, 1, 0.36, 1] }}
-          src={gallery[0].image}
+          src={gallery[1].image}
           alt="Kakani Holidays travel gallery"
           fetchPriority="high"
           className="absolute inset-0 h-full w-full object-cover opacity-60"
@@ -114,7 +114,7 @@ export default function Gallery() {
                   <img
                     src={item.image}
                     alt={item.title}
-                    loading={index < 3 ? "eager" : "lazy"}
+                    loading="lazy"
                     decoding="async"
                     className={`gallery-tile-image w-full object-cover ${index % 5 === 0 || index % 5 === 3 ? "h-[430px]" : index % 3 === 0 ? "h-[350px]" : "h-[290px]"}`}
                   />
