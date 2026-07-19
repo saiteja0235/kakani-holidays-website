@@ -20,6 +20,16 @@
   @keyframes planeFlight{0%{opacity:0;transform:translate3d(0,30px,0) rotate(-12deg) scale(.75)}15%{opacity:1}75%{opacity:1}100%{opacity:0;transform:translate3d(112vw,-32vh,0) rotate(-5deg) scale(1.05)}}
   @keyframes logoArrive{from{opacity:0;transform:translate3d(0,12px,0) scale(.94)}to{opacity:1;transform:translate3d(0,0,0) scale(1)}}
   @media(max-width:767px){.native-intro-logo{width:min(88vw,520px);filter:none;animation-duration:.9s}.native-intro-plane{text-shadow:none}}
+  @supports (-webkit-touch-callout:none){
+   #native-intro{background:#061b33;transform:translateZ(0);-webkit-transform:translateZ(0);animation:iphoneIntroExit 2s ease forwards}
+   #native-intro:before,#native-intro:after{display:none}
+   .native-intro-logo{width:88vw;max-width:520px;filter:none!important;-webkit-filter:none!important;transform:translateZ(0);animation:iphoneLogoIn .8s .18s ease-out both}
+   .native-intro-plane{top:62%;animation:iphonePlane 1s .22s ease-in-out both;text-shadow:none}
+   .native-intro-caption{bottom:max(32px,env(safe-area-inset-bottom));animation:captionIn .55s .65s ease both}
+  }
+  @keyframes iphoneLogoIn{from{opacity:0;transform:translate3d(0,8px,0) scale(.96)}to{opacity:1;transform:translate3d(0,0,0) scale(1)}}
+  @keyframes iphonePlane{0%{opacity:0;transform:translate3d(0,15px,0) rotate(-8deg)}15%,75%{opacity:1}to{opacity:0;transform:translate3d(115vw,-18vh,0) rotate(-4deg)}}
+  @keyframes iphoneIntroExit{0%,84%{opacity:1;visibility:visible;pointer-events:auto}to{opacity:0;visibility:hidden;pointer-events:none}}
   @keyframes orbitPulse{from{opacity:0;transform:scale(.7) rotate(-12deg)}55%{opacity:1}to{opacity:.35;transform:scale(1.08) rotate(5deg)}}
   @keyframes lightPass{to{transform:translateX(60%)}}
   @keyframes captionIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
@@ -40,6 +50,7 @@
   <img class="native-intro-logo" src="/images/brand/kakani-logo-transparent.png" alt=""/>
   <p class="native-intro-caption">Your world of journeys begins here</p>
  </div>
+ <script>setTimeout(function(){var intro=document.getElementById('native-intro');if(intro)intro.remove()},2300)</script>
  <div id="root"></div>
  <script type="module" src="/src/main.tsx"></script>
 </body>

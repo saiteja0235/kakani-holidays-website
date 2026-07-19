@@ -27,7 +27,6 @@ export function Layout({children}:{children:React.ReactNode}){
  const navClass=({isActive}:{isActive:boolean})=>`relative rounded-full px-3.5 py-2 text-[13px] font-extrabold tracking-wide transition ${glass?(isActive?'bg-white/15 text-white':'text-white/85 hover:bg-white/10 hover:text-white'):(isActive?'border border-dashed border-ocean text-ocean':'text-navy hover:text-ocean')}`;
  return <div className="relative min-h-screen bg-ivory">
   <TranslateToolbarGuard/>
-  <AmbientBackground/>
   <header className={`fixed inset-x-0 top-0 z-50 transition-all duration-500 ${glass?'border-b border-white/15 bg-[#071517]/20 text-white backdrop-blur-xl':'border-t-[5px] border-[#180607] bg-white/95 shadow-[0_8px_28px_rgba(7,26,43,.10)] backdrop-blur-xl'}`}>
    <div className="mx-auto flex h-[88px] w-[min(1500px,calc(100%-2rem))] items-center justify-between gap-6">
     <Brand/>
