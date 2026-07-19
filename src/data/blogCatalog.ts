@@ -1,0 +1,57 @@
+import type { BlogPost } from "../types";
+
+const places = [
+  ["europe", "Europe", "International", "Grand cities, Alpine scenery and timeless culture"],
+  ["singapore", "Singapore", "Family Travel", "A family-friendly city of gardens and wonder"],
+  ["chardham", "Chardham Yatra", "Devotional", "A thoughtful guide to the sacred Himalayan circuit"],
+  ["maldives", "Maldives", "Honeymoon", "Turquoise lagoons and unforgettable island stays"],
+  ["nepal", "Nepal", "Culture", "Ancient heritage beyond the Himalayan peaks"],
+  ["dubai", "Dubai", "International", "From desert horizons to sky-high landmarks"],
+  ["kerala", "Kerala", "Domestic", "Backwaters, green hills and slow coastal living"],
+  ["thailand", "Thailand", "International", "Temples, tropical islands and vibrant street life"],
+  ["kashmir", "Kashmir", "Domestic", "Lakes, valleys and the poetry of the mountains"],
+  ["sri-lanka", "Sri Lanka", "International", "Tea country, ancient cities and golden shores"],
+  ["goa", "Goa", "Beach", "Beyond the beaches: heritage, food and sunsets"],
+  ["malaysia", "Malaysia", "Family Travel", "Rainforests, islands and multicultural cities"],
+  ["japan", "Japan", "International", "Tradition, technology and seasonal beauty"],
+  ["meghalaya", "Meghalaya", "Adventure", "Cloud forests, waterfalls and living root bridges"],
+  ["australia", "Australia", "International", "Iconic cities, coastlines and natural wonders"],
+  ["andaman", "Andaman Islands", "Beach", "Clear water, quiet beaches and island adventures"],
+  ["vietnam", "Vietnam", "International", "Lantern towns, limestone bays and remarkable food"],
+  ["manali", "Manali", "Adventure", "Mountain drives, snow views and pine valleys"],
+  ["georgia", "Georgia", "International", "Caucasus landscapes, old towns and warm hospitality"],
+  ["golden-triangle", "Golden Triangle", "Culture", "Delhi, Agra and Jaipur in one classic journey"],
+  ["baku", "Baku", "International", "Caspian elegance, old-city lanes and modern design"],
+  ["mysore-ooty", "Mysore & Ooty", "Domestic", "Palaces, gardens and misty hill-country escapes"],
+  ["china", "China", "International", "Imperial landmarks and extraordinary modern skylines"],
+  ["darjeeling-gangtok", "Darjeeling & Gangtok", "Domestic", "Tea estates, monasteries and Himalayan mornings"],
+  ["united-states", "United States", "International", "Legendary cities, road trips and national parks"],
+  ["gujarat", "Gujarat", "Devotional", "Sacred coastlines, temples and living traditions"],
+  ["vietnam-cambodia", "Vietnam & Cambodia", "Culture", "Two countries of temples, rivers and layered history"],
+  ["ayodhya-varanasi", "Ayodhya & Varanasi", "Devotional", "A soulful journey through India’s sacred heart"],
+  ["australia-new-zealand", "Australia & New Zealand", "International", "Epic landscapes across two remarkable countries"],
+  ["karnataka-temple-tour", "Karnataka Temple Tour", "Devotional", "Architecture, devotion and centuries of heritage"],
+  ["singapore-malaysia", "Singapore & Malaysia", "Family Travel", "An easy two-country holiday for every generation"],
+  ["manasarovar", "Kailash Manasarovar", "Devotional", "Preparation and perspective for a profound pilgrimage"],
+  ["delhi-agra", "Delhi & Agra", "Culture", "Mughal heritage, lively bazaars and iconic monuments"],
+  ["nepal-devotional", "Devotional Nepal", "Devotional", "Sacred temples beneath the Himalayas"],
+  ["sri-lanka-devotional", "Sacred Sri Lanka", "Devotional", "Pilgrimage places, heritage and island serenity"],
+] as const;
+
+const months = ["July", "June", "May", "April", "March", "February", "January"];
+
+export const premiumBlogs: BlogPost[] = places.map(([slug, place, category, angle], index) => ({
+  slug: `${slug}-travel-guide`,
+  title: `${place} Travel Guide: ${angle}`,
+  category,
+  date: `${months[index % months.length]} ${18 - (index % 14)}, 2026`,
+  excerpt: `Discover the best of ${place} with practical planning advice, signature experiences and thoughtful ideas for a beautifully paced Kakani holiday.`,
+  image: `/images/catalog/${slug}.avif`,
+  imageLabel: `${place} destination travel guide`,
+  recommendedSize: "1200 × 750 px",
+  content: [
+    `${place} rewards travellers who balance its celebrated highlights with time for local character, unhurried discoveries and meaningful experiences.`,
+    `This guide brings together the best time to visit, essential places, ideal pacing and practical details to help shape a comfortable and memorable journey.`,
+    `Kakani Holidays can personalise the route, stays, transport and experiences around your dates, interests and preferred travel style.`,
+  ],
+}));

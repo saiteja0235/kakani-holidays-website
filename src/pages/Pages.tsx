@@ -1,6 +1,10 @@
 import { useMemo, useState } from "react";
 import { Link, useParams } from "react-router-dom";
+import { motion } from "framer-motion";
 import {
+  ArrowRight,
+  BookOpen,
+  CalendarDays,
   Check,
   ChevronDown,
   Clock,
@@ -10,8 +14,11 @@ import {
   MessageCircle,
   Phone,
   Search,
+  Sparkles,
+  UserRound,
 } from "lucide-react";
-import { blogs, contact, destinations, packages } from "../data/content";
+import { contact, destinations, packages } from "../data/content";
+import { premiumBlogs as blogs } from "../data/blogCatalog";
 import {
   PackageCard,
   PageHero,
@@ -392,28 +399,15 @@ export function Blogs() {
 export function BlogDetail() {
   const { slug } = useParams();
   const b = blogs.find((x) => x.slug === slug) || blogs[0];
+  const related = blogs.filter((post) => post.slug !== b.slug).slice(0, 5);
   return (
-    <>
-      <PageHero
-        kicker={b.category}
-        title={b.title}
-        copy={b.excerpt}
-        image={b.image}
-      />
-      <article className="container-x max-w-3xl py-20">
-        {b.content.map((p) => (
-          <p className="mb-6 text-lg leading-9 text-slate-600" key={p}>
-            {p}
-          </p>
-        ))}
-        <div className="mt-10 rounded-3xl bg-sand/50 p-8">
-          <h2 className="text-3xl">Make the idea your own</h2>
-          <Link to="/customised-tours" className="btn btn-primary mt-5">
-            Plan my trip
-          </Link>
-        </div>
-      </article>
-    </>
+    <div className="blog-detail-premium overflow-hidden bg-[#f3f6fa]">
+      <section className="relative flex min-h-[610px] items-end overflow-hidden bg-navy pb-16 text-white"><motion.img key={b.image} initial={{opacity:0,scale:1.12}} animate={{opacity:.72,scale:1}} transition={{duration:1.4,ease:[.22,1,.36,1]}} src={b.image} alt={b.imageLabel} fetchPriority="high" className="absolute inset-0 h-full w-full object-cover"/><div className="absolute inset-0 bg-gradient-to-t from-[#041528] via-[#041528]/48 to-[#041528]/20"/><div className="absolute inset-0 bg-gradient-to-r from-[#041528]/75 via-transparent to-transparent"/><div className="lux-container relative"><motion.div initial={{opacity:0,y:35}} animate={{opacity:1,y:0}} transition={{delay:.25,duration:.8}} className="max-w-5xl"><span className="inline-flex rounded-full border border-white/25 bg-white/10 px-4 py-2 text-[9px] font-black uppercase tracking-[.18em] text-[#ffc45c] backdrop-blur-xl">{b.category}</span><h1 className="mt-5 font-serif text-5xl leading-[1] md:text-7xl">{b.title}</h1><div className="mt-7 flex flex-wrap gap-5 text-xs text-white/70"><span className="flex items-center gap-2"><CalendarDays size={15} className="text-[#e7b753]"/>{b.date}</span><span className="flex items-center gap-2"><UserRound size={15} className="text-[#e7b753]"/>Kakani Holidays</span><span className="flex items-center gap-2"><BookOpen size={15} className="text-[#e7b753]"/>6 minute read</span></div></motion.div></div></section>
+      <section className="relative py-16"><div className="lux-container grid gap-8 lg:grid-cols-[1.35fr_.65fr] lg:items-start">
+        <motion.article initial={{opacity:0,y:30}} whileInView={{opacity:1,y:0}} viewport={{once:true}} className="rounded-[32px] border border-white/90 bg-white/80 p-6 shadow-[0_24px_70px_rgba(6,27,51,.09)] backdrop-blur-xl md:p-10"><p className="border-l-4 border-[#e7b753] pl-5 font-serif text-2xl leading-10 text-navy">{b.excerpt}</p><div className="mt-9 space-y-9 text-base leading-8 text-slate-600"><section><h2 className="mb-3 font-serif text-3xl text-navy">Why this journey belongs on your list</h2><p>{b.content[0]}</p></section><section><h2 className="mb-3 font-serif text-3xl text-navy">Experiences worth making time for</h2><p>{b.content[1]}</p><div className="mt-6 grid gap-3 sm:grid-cols-2">{["Signature landmarks","Authentic local culture","Comfortable pacing","Handpicked stays"].map((item)=><div key={item} className="flex items-center gap-3 rounded-2xl bg-[#f4f7f8] p-4 text-sm font-bold text-navy"><span className="grid h-8 w-8 place-items-center rounded-full bg-teal/15 text-teal"><Sparkles size={14}/></span>{item}</div>)}</div></section><section><h2 className="mb-3 font-serif text-3xl text-navy">How to plan it beautifully</h2><p>{b.content[2]}</p></section></div><div className="mt-10 overflow-hidden rounded-[26px] border border-[#e7b753]/25 bg-gradient-to-br from-[#fff8e8] to-[#eff9f7] p-7"><span className="text-[10px] font-black uppercase tracking-[.2em] text-ocean">Kakani pro tip</span><h2 className="mt-3 font-serif text-3xl text-navy">Leave space for the unexpected.</h2><p className="mt-3 text-sm leading-7 text-slate-600">The most memorable holidays balance must-see highlights with breathing room. Our specialists can shape this guide into a personalised route around your dates and interests.</p><Link to="/customised-tours" className="lux-btn-gold mt-6">Plan this journey <ArrowRight size={15}/></Link></div></motion.article>
+        <aside className="space-y-6 lg:sticky lg:top-28"><div className="rounded-[30px] border border-white bg-white/80 p-6 shadow-[0_20px_60px_rgba(6,27,51,.08)] backdrop-blur-xl"><p className="lux-eyebrow">Related articles</p><div className="mt-5 divide-y divide-slate-100">{related.map((post)=><Link key={post.slug} to={`/blogs/${post.slug}`} className="group flex gap-3 py-4"><img src={post.image} alt={post.imageLabel} loading="lazy" className="h-20 w-24 shrink-0 rounded-xl object-cover transition duration-500 group-hover:scale-105"/><div><h3 className="line-clamp-2 text-xs font-extrabold leading-5 text-navy group-hover:text-ocean">{post.title}</h3><p className="mt-1 text-[10px] text-slate-400">{post.date}</p></div></Link>)}</div></div><div className="relative overflow-hidden rounded-[30px] bg-navy p-7 text-white shadow-[0_24px_70px_rgba(6,27,51,.22)]"><div className="absolute -right-12 -top-12 h-40 w-40 rounded-full bg-teal/25 blur-2xl"/><div className="relative"><p className="text-[9px] font-black uppercase tracking-[.2em] text-[#e7b753]">Travel made personal</p><h2 className="mt-3 font-serif text-4xl">Plan your dream trip.</h2><p className="mt-4 text-sm leading-7 text-white/60">Tell us what inspires you. We’ll take care of the route, stays and thoughtful details.</p><Link to="/contact" className="mt-6 flex items-center justify-center gap-2 rounded-full bg-white px-5 py-3 text-xs font-black text-navy">Speak to an expert <ArrowRight size={15}/></Link></div></div></aside>
+      </div></section>
+    </div>
   );
 }
 export function Contact() {
